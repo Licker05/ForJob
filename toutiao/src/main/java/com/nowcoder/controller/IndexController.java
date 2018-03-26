@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
- * Created by nowcoder on 2016/6/26.
+ * Created by licker .
  */
 //@Controller
 public class IndexController {

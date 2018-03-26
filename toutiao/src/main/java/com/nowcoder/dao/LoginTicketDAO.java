@@ -5,10 +5,11 @@ import com.nowcoder.model.User;
 import org.apache.ibatis.annotations.*;
 
 /**
- * Created by nowcoder on 2016/7/2.
+ * Created by licker .
  */
 @Mapper
 public interface LoginTicketDAO {
+
     String TABLE_NAME = "login_ticket";
     String INSERT_FIELDS = " user_id, expired, status, ticket ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;

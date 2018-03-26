@@ -13,7 +13,7 @@ import com.nowcoder.util.ToutiaoUtil;
 import java.util.*;
 
 /**
- * Created by nowcoder on 2016/7/2.
+ * Created by licker .
  */
 @Service
 public class UserService {

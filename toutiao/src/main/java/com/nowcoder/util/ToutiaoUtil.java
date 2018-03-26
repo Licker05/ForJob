@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.util.Map;
 
 /**
- * Created by nowcoder on 2016/7/3.
+ * Created by licker .
  */
 public class ToutiaoUtil {
     private static final Logger logger = LoggerFactory.getLogger(ToutiaoUtil.class);
