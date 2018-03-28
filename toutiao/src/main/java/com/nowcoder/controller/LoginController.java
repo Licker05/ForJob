@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.nowcoder.util.ToutiaoUtil;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
@@ -44,15 +45,18 @@ public class LoginController {
     @ResponseBody
     public String login(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
-                      @RequestParam(value = "rember",defaultValue = "0") int remember){
+                      @RequestParam(value = "rember",defaultValue = "0") int remember,
+                        HttpServletResponse response){
         try{
             Map<String,Object> map=userService.login(username,password);
             if(map.containsKey("ticket")){
+                System.out.println("contais ticket");
                 Cookie cookie=new Cookie("ticket",map.get("ticket").toString());
                 cookie.setPath("/");
                 if(remember>0){
                     cookie.setMaxAge(3600*24*5);
                 }
+                response.addCookie(cookie);
                 return ToutiaoUtil.getJSONString(0,"登录成功");
             }else{
                 return ToutiaoUtil.getJSONString(1,map);
@@ -62,5 +66,10 @@ public class LoginController {
             return ToutiaoUtil.getJSONString(1,"登录异常");
         }
         //return "home";
+    }
+    @RequestMapping(path = {"/logout"}, method = {RequestMethod.GET, RequestMethod.POST})
+    public String logout(@CookieValue("ticket")String ticket){
+        userService.logout(ticket);
+        return "redirect:/";
     }
 }

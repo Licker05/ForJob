@@ -55,6 +55,7 @@ public class UserService {
     public void addUser(User user){
         userDAO.addUser(user);
     }
+
     public String addLoginTicket(int userId){
         LoginTicket ticket=new LoginTicket();
         ticket.setUserId(userId);
@@ -89,10 +90,14 @@ public class UserService {
             return map;
         }
         String ticket=addLoginTicket(user.getId());
+        System.out.println(ticket);
         map.put("ticket",ticket);
 
         return map;
 
+    }
+    public void logout(String ticket){
+        loginTicketDAO.updateStatus(ticket,1);
     }
 
 }
