@@ -1,6 +1,7 @@
 package com.nowcoder.controller;
 
 import com.nowcoder.model.*;
+import com.nowcoder.service.CommentService;
 import com.nowcoder.service.NewsService;
 import com.nowcoder.service.UserService;
 import com.nowcoder.util.ToutiaoUtil;
@@ -35,17 +36,11 @@ public class NewsController {
     NewsService newsService;
     @Autowired
     HostHolder hostHolder;
-    /*@Autowired
-    QiniuService qiniuService;
-
-    @Autowired
-    HostHolder hostHolder;
-
     @Autowired
     CommentService commentService;
-
     @Autowired
     UserService userService;
+
 
     @RequestMapping(path = {"/news/{newsId}"}, method = {RequestMethod.GET})
     public String newsDetail(@PathVariable("newsId") int newsId, Model model) {
@@ -68,7 +63,7 @@ public class NewsController {
             logger.error("获取资讯明细错误" + e.getMessage());
         }
         return "detail";
-    }*/
+    }
 
     @RequestMapping(path = {"/image"}, method = {RequestMethod.GET})
     @ResponseBody
@@ -123,7 +118,7 @@ public class NewsController {
             return ToutiaoUtil.getJSONString(1, "发布失败");
         }
     }
-    /*
+
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
     public String addComment(@RequestParam("newsId") int newsId,
                          @RequestParam("content") String content) {
@@ -145,5 +140,5 @@ public class NewsController {
             logger.error("提交评论错误" + e.getMessage());
         }
         return "redirect:/news/" + String.valueOf(newsId);
-    }*/
+    }
 }
