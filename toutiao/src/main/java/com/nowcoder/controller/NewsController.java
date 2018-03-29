@@ -33,7 +33,8 @@ public class NewsController {
     private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
     @Autowired
     NewsService newsService;
-
+    @Autowired
+    HostHolder hostHolder;
     /*@Autowired
     QiniuService qiniuService;
 
@@ -82,7 +83,7 @@ public class NewsController {
         }
     }
 
-    @RequestMapping(path = {"/uploadImage/"}, method = {RequestMethod.POST})
+    @RequestMapping(path = {"/uploadImage"}, method = {RequestMethod.POST})
     @ResponseBody
     public String uploadImage(@RequestParam("file") MultipartFile file) {
         try {
@@ -98,7 +99,7 @@ public class NewsController {
         }
     }
 
-    /*@RequestMapping(path = {"/user/addNews/"}, method = {RequestMethod.POST})
+    @RequestMapping(path = {"/user/addNews/"}, method = {RequestMethod.POST})
     @ResponseBody
     public String addNews(@RequestParam("image") String image,
                           @RequestParam("title") String title,
@@ -122,7 +123,7 @@ public class NewsController {
             return ToutiaoUtil.getJSONString(1, "发布失败");
         }
     }
-
+    /*
     @RequestMapping(path = {"/addComment"}, method = {RequestMethod.POST})
     public String addComment(@RequestParam("newsId") int newsId,
                          @RequestParam("content") String content) {

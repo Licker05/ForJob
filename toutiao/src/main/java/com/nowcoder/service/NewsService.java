@@ -38,6 +38,14 @@ public class NewsService {
         String fileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + fileExt;
         Files.copy(file.getInputStream(), new File(ToutiaoUtil.IMAGE_DIR + fileName).toPath(),
                 StandardCopyOption.REPLACE_EXISTING);
+
         return ToutiaoUtil.TOUTIAO_DOMAIN + "image?name=" + fileName;
+    }
+    public int addNews(News news){
+        newsDAO.addNews(news);
+        return news.getId();
+    }
+    public News getById(int newsId){
+        return newsDAO.getById(newsId);
     }
 }

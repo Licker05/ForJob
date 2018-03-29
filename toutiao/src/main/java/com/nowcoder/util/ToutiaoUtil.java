@@ -15,7 +15,7 @@ public class ToutiaoUtil {
     private static final Logger logger = LoggerFactory.getLogger(ToutiaoUtil.class);
 
     public static String TOUTIAO_DOMAIN = "http://127.0.0.1:8080/";
-    public static String IMAGE_DIR = "/Users/";
+    public static String IMAGE_DIR = "/Users/licker/Desktop";
     public static String[] IMAGE_FILE_EXTD = new String[] {"png", "bmp", "jpg", "jpeg"};
 
     public static boolean isFileAllowed(String fileName) {
