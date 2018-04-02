@@ -1,5 +1,5 @@
 (function (window, undefined) {
-    var Base = window.Base = fCreateClass('main.base.Base');
+    var Base = window.Base = fCreateClass('main.base.base');
     $.extend(Base, {
         ready: fReady,
         tpl: fTpl,
@@ -48,7 +48,7 @@
                 });
             });
             // 代理的事件
-            $.each(oClass.events, function (sCbName, sEventName) {
+            $.each(oClass.events, function (sEventName, sCbName) {
                 var aMatch = sEventName.match(/^(\S+)\s*(.*)$/);
                 var sEvent = aMatch[1];
                 var sSelector = aMatch[2];
