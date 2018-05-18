@@ -7,7 +7,7 @@ CREATE TABLE `user` (
   `head_url` varchar(256) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
@@ -20,7 +20,7 @@ CREATE TABLE `news` (
   `created_date` datetime NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `login_ticket`;
 CREATE TABLE `login_ticket` (
@@ -31,7 +31,7 @@ CREATE TABLE `login_ticket` (
   `status` INT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `ticket_UNIQUE` (`ticket` ASC)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  ) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
@@ -44,7 +44,7 @@ CREATE TABLE `comment` (
 `status` INT NOT NULL DEFAULT 0,
 PRIMARY KEY (`id`),
 INDEX `entity_index` (`entity_id` ASC, `entity_type` ASC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8;
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (

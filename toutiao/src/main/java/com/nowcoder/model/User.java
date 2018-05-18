@@ -1,7 +1,7 @@
 package com.nowcoder.model;
 
 /**
- * Created by licker .
+ * Created by licker.
  */
 public class User {
     private int id;

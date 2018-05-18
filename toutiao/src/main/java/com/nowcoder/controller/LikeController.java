@@ -1,55 +1,58 @@
 package com.nowcoder.controller;
 
+import com.nowcoder.async.EventModel;
+import com.nowcoder.async.EventProducer;
+import com.nowcoder.async.EventType;
 import com.nowcoder.model.EntityType;
 import com.nowcoder.model.HostHolder;
+import com.nowcoder.model.News;
 import com.nowcoder.service.LikeService;
 import com.nowcoder.service.NewsService;
 import com.nowcoder.util.ToutiaoUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
+/**
+ * Created by licker.
+ */
 @Controller
 public class LikeController {
-    private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+    @Autowired
+    LikeService likeService;
 
     @Autowired
     HostHolder hostHolder;
-    @Autowired
-    LikeService likeService;
+
     @Autowired
     NewsService newsService;
 
-
-
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(path = {"/like"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String like(Model model, @RequestParam("newsId") int newsId){
-
-
-        logger.info("click the like");
-        int userId=hostHolder.getUser().getId();
-        long likeCount = likeService.like(userId, EntityType.ENTITY_NEWS,newsId);
-        newsService.updateCommentCount(newsId,(int)likeCount);
-        return ToutiaoUtil.getJSONString(0,String.valueOf(likeCount));
+    public String like(@Param("newId") int newsId) {
+        long likeCount = likeService.like(hostHolder.getUser().getId(), EntityType.ENTITY_NEWS, newsId);
+        // 更新喜欢数
+        News news = newsService.getById(newsId);
+        newsService.updateLikeCount(newsId, (int) likeCount);
+        eventProducer.fireEvent(new EventModel(EventType.LIKE)
+                .setEntityOwnerId(news.getUserId())
+                .setActorId(hostHolder.getUser().getId()).setEntityId(newsId));
+        return ToutiaoUtil.getJSONString(0, String.valueOf(likeCount));
     }
 
     @RequestMapping(path = {"/dislike"}, method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public String dislike(Model model, @RequestParam("newsId") int newsId){
-        int userId=hostHolder.getUser().getId();
-        long likeCount = likeService.disLike(userId, EntityType.ENTITY_NEWS,newsId);
-        newsService.updateCommentCount(newsId,(int)likeCount);
-        return ToutiaoUtil.getJSONString(0,String.valueOf(likeCount));
+    public String dislike(@Param("newId") int newsId) {
+        long likeCount = likeService.disLike(hostHolder.getUser().getId(), EntityType.ENTITY_NEWS, newsId);
+        // 更新喜欢数
+        newsService.updateLikeCount(newsId, (int) likeCount);
+        return ToutiaoUtil.getJSONString(0, String.valueOf(likeCount));
     }
 }

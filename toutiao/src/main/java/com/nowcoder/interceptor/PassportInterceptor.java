@@ -1,13 +1,10 @@
 package com.nowcoder.interceptor;
 
-import com.nowcoder.controller.IndexController;
 import com.nowcoder.dao.LoginTicketDAO;
 import com.nowcoder.dao.UserDAO;
 import com.nowcoder.model.HostHolder;
 import com.nowcoder.model.LoginTicket;
 import com.nowcoder.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -23,51 +20,49 @@ import java.util.Date;
  */
 @Component
 public class PassportInterceptor implements HandlerInterceptor {
-    private static final Logger logger = LoggerFactory.getLogger(PassportInterceptor.class);
 
     @Autowired
-        private LoginTicketDAO loginTicketDAO;
+    private LoginTicketDAO loginTicketDAO;
 
-        @Autowired
-        private UserDAO userDAO;
+    @Autowired
+    private UserDAO userDAO;
 
-        @Autowired
-        private HostHolder hostHolder;
+    @Autowired
+    private HostHolder hostHolder;
 
-        @Override
-        public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-            String ticket = null;
-            if (httpServletRequest.getCookies() != null) {
-                for (Cookie cookie : httpServletRequest.getCookies()) {
-                    if (cookie.getName().equals("ticket")) {
-                        ticket = cookie.getValue();
-                        break;
-                    }
+    @Override
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+        String ticket = null;
+        if (httpServletRequest.getCookies() != null) {
+            for (Cookie cookie : httpServletRequest.getCookies()) {
+                if (cookie.getName().equals("ticket")) {
+                    ticket = cookie.getValue();
+                    break;
                 }
             }
+        }
 
-            if (ticket != null) {
-                LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
-                if (loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0) {
-                    return true;
-                }
-
-                User user = userDAO.selectById(loginTicket.getUserId());
-                hostHolder.setUser(user);
+        if (ticket != null) {
+            LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
+            if (loginTicket == null || loginTicket.getExpired().before(new Date()) || loginTicket.getStatus() != 0) {
+                return true;
             }
-            return true;
-        }
 
-        @Override
-        public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-            if (modelAndView != null && hostHolder.getUser()!=null) {
-                logger.info("posthandle",hostHolder.getUser());
-                modelAndView.addObject("user", hostHolder.getUser());
-            }
+            User user = userDAO.selectById(loginTicket.getUserId());
+            hostHolder.setUser(user);
         }
+        return true;
+    }
 
-        @Override
-        public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
-            hostHolder.clear();
+    @Override
+    public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+        if (modelAndView != null && hostHolder.getUser() != null) {
+            modelAndView.addObject("user", hostHolder.getUser());
         }
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+        hostHolder.clear();
+    }
 }

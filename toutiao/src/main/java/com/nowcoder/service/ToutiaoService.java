@@ -3,7 +3,7 @@ package com.nowcoder.service;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by licker .
+ * Created by licker.
  */
 @Service
 public class ToutiaoService {

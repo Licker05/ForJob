@@ -3,7 +3,7 @@ package com.nowcoder.model;
 import java.util.Date;
 
 /**
- * Created by licker .
+ * Created by licker.
  */
 public class News {
 

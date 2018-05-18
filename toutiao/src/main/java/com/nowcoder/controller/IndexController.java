@@ -20,8 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+
 /**
- * Created by licker .
+ * Created by licker.
  */
 //@Controller
 public class IndexController {
